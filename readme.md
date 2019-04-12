@@ -30,29 +30,13 @@ kubectl apply -f serving/service.yaml
 
 ### Execution
 
-### Get INGRESS GATEWAY
-
-```
-# In Knative 0.2.x and prior versions, the `knative-ingressgateway` service was used instead of `istio-ingressgateway`.
-   INGRESSGATEWAY=knative-ingressgateway
-
-   # The use of `knative-ingressgateway` is deprecated in Knative v0.3.x.
-   # Use `istio-ingressgateway` instead, since `knative-ingressgateway`
-   # will be removed in Knative v0.4.
-   if kubectl get configmap config-istio -n knative-serving &> /dev/null; then
-       INGRESSGATEWAY=istio-ingressgateway
-   fi
-
-   kubectl get svc $INGRESSGATEWAY --namespace istio-system
-```
-
 #### Find IP and Host
 
 Note: These commands are for GKE. Minikube has different commands to find the IP. (To be updated)
 
 ```
 # Get the IP address
-export IP_ADDRESS=$(kubectl get svc $INGRESSGATEWAY --namespace istio-system --output 'jsonpath={.status.loadBalancer.ingress[0].ip}')
+export IP_ADDRESS=$(kubectl get svc istio-ingressgateway --namespace istio-system --output 'jsonpath={.status.loadBalancer.ingress[0].ip}')
 
 # Get the Host URL
 export HOST_URL=$(kubectl get route helloworld-nodejs  --output jsonpath='{.status.domain}')
