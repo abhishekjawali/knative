@@ -1,0 +1,26 @@
+apiVersion: serving.knative.dev/v1alpha1
+kind: Configuration
+metadata:
+  name: helloworld-nodejs-green
+  namespace: default
+spec:
+  revisionTemplate:
+    spec:
+      container:
+        image: docker.io/abhishekjv/helloworld-nodejs
+        env:
+          - name: VERSION
+            value: "GREEN"
+---
+apiVersion: serving.knative.dev/v1alpha1
+kind: Route
+metadata:
+  name: blue-green-app-route
+  namespace: default
+spec:
+  traffic:
+    - configurationName: helloworld-nodejs-blue
+      percent: 100 # All traffic goes to this revision
+    - configurationName: helloworld-nodejs-green
+      percent: 0
+      name: v2

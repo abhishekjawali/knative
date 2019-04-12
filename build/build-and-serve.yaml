@@ -1,0 +1,33 @@
+apiVersion: build.knative.dev/v1alpha1
+kind: Build
+metadata:
+  name: knative-hw-build-sample
+spec:
+  serviceAccountName: knative-build
+  source:
+    git:
+      url: https://github.com/abhishekjawali/knative-samples
+      revision: master
+    subPath: "app/hw-nodejs/"
+  steps:
+    - name: build-and-push
+      image: gcr.io/kaniko-project/executor:v0.1.0
+      args:
+        - --dockerfile=/workspace/Dockerfile
+        - --destination=gcr.io/my-knative-project-abhi/knative-hw-nodejs
+---
+apiVersion: serving.knative.dev/v1alpha1
+kind: Service
+metadata:
+  name: knative-hw-serve-sample
+  namespace: default
+spec:
+  runLatest:
+    configuration:
+      revisionTemplate:
+        spec:
+          container:
+            image: gcr.io/my-knative-project-abhi/knative-hw-nodejs
+            env:
+              - name: MESSAGE
+                value: "Version 1"

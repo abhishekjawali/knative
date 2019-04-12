@@ -1,0 +1,12 @@
+apiVersion: serving.knative.dev/v1alpha1
+kind: Route
+metadata:
+  name: blue-green-app-route
+  namespace: default
+spec:
+  traffic:
+    - configurationName: helloworld-nodejs-blue
+      percent: 0 # All traffic goes to this revision
+    - configurationName: helloworld-nodejs-green
+      percent: 100
+      name: v2
