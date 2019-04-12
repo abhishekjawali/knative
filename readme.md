@@ -91,13 +91,6 @@ traffic:
       percent: 100 # All traffic goes to this revision
 ```
 
-Get the app route:
-
-```
-# Get the Host URL
-export HOST_URL=$(kubectl get route blue-green-app-route  --output jsonpath='{.status.domain}')
-```
-
 Hit the URL
 
 ```
@@ -168,4 +161,13 @@ Kaniko build is used here to build the container images and push to dockerhub.
 
 ```
 kubectl apply -f build/build-and-serve-docker.yaml
+
+# Get the Host URL
+export HOST_URL=$(kubectl get route knative-hw-serve-sample  --output jsonpath='{.status.domain}')
+```
+
+TO check the progress of build:
+
+```
+kubectl logs --follow --container=build-step-build-and-push <POD>
 ```
