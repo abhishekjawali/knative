@@ -1,18 +1,4 @@
 apiVersion: serving.knative.dev/v1alpha1
-kind: Configuration
-metadata:
-  name: helloworld-nodejs-green
-  namespace: default
-spec:
-  revisionTemplate:
-    spec:
-      container:
-        image: docker.io/abhishekjv/helloworld-nodejs
-        env:
-          - name: MESSAGE
-            value: "GREEN"
----
-apiVersion: serving.knative.dev/v1alpha1
 kind: Route
 metadata:
   name: blue-green-app-route
