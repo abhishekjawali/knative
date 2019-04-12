@@ -91,6 +91,19 @@ traffic:
       percent: 100 # All traffic goes to this revision
 ```
 
+Get the app route:
+
+```
+# Get the Host URL
+export HOST_URL=$(kubectl get route blue-green-app-route  --output jsonpath='{.status.domain}')
+```
+
+Hit the URL
+
+```
+curl -H "Host: blue-green-app-route.default.example.com" http://${IP_ADDRESS}
+```
+
 #### Deploy green version of the service:
 
 ```

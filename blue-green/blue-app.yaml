@@ -9,7 +9,7 @@ spec:
       container:
         image: docker.io/abhishekjv/helloworld-nodejs
         env:
-          - name: VERSION
+          - name: MESSAGE
             value: "BLUE"
 ---
 apiVersion: serving.knative.dev/v1alpha1
